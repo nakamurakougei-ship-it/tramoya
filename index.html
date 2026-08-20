@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TRAMOYA - WEB APP SUITE</title>
+<style>
+  :root {
+    --primary: #2563eb;
+    --primary-hover: #1d4ed8;
+    --bg-page: #f8fafc;
+    --card-bg: #ffffff;
+    --text-main: #0f172a;
+    --text-muted: #64748b;
+    --border-color: #e2e8f0;
+    --badge-bg: #dcfce7;
+    --badge-text: #15803d;
+  }
+
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  }
+
+  body {
+    background-color: var(--bg-page);
+    color: var(--text-main);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 50px 20px 40px;
+  }
+
+  /* センターヘッダー */
+  header {
+    text-align: center;
+    margin-bottom: 56px;
+  }
+
+  .site-title-wrap {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+
+  /* サボテンの表示サイズ（文字高の半分に設定） */
+  .title-cactus {
+    height: clamp(48px, 9vw, 82px);
+    width: auto;
+    object-fit: contain;
+    image-rendering: pixelated;
+  }
+
+  .site-title {
+    font-size: clamp(64px, 12vw, 110px);
+    font-weight: 900;
+    letter-spacing: -0.1em;
+    color: var(--text-main);
+    line-height: 0.95;
+    margin-left: -0.05em;
+  }
+
+  .site-subtitle {
+    font-size: clamp(24px, 4vw, 34px);
+    font-weight: 800;
+    color: var(--text-muted);
+    letter-spacing: 0.08em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+  }
+
+  .site-subtitle::before,
+  .site-subtitle::after {
+    content: "ー";
+    color: var(--text-muted);
+    font-weight: 400;
+  }
+
+  /* スライダー外枠コンテナ */
+  .carousel-container {
+    width: 100%;
+    max-width: 960px;
+    position: relative;
+  }
+
+  /* スライダーのビューポート */
+  .carousel-viewport {
+    overflow: hidden;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.06), 0 4px 6px -2px rgba(0, 0, 0, 0.03);
+    border: 1px solid var(--border-color);
+    background: var(--card-bg);
+  }
+
+  /* スライドトラック */
+  .carousel-track {
+    display: flex;
+    transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+    width: 100%;
+  }
+
+  /* 各スライドカード */
+  .slide-card {
+    flex: 0 0 100%;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1.1fr 1fr;
+    gap: 40px;
+    padding: 48px;
+    align-items: center;
+    background: var(--card-bg);
+  }
+
+  @media (max-width: 768px) {
+    .slide-card {
+      grid-template-columns: 1fr;
+      padding: 28px 20px;
+      gap: 28px;
+    }
+  }
+
+  /* 左側: テキスト情報 */
+  .card-info {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .card-header-badge {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .badge {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    padding: 3px 10px;
+    border-radius: 999px;
+  }
+
+  .badge-free {
+    background: var(--badge-bg);
+    color: var(--badge-text);
+  }
+
+  .badge-dev {
+    background: #f1f5f9;
+    color: #64748b;
+  }
+
+  .app-category {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-muted);
+  }
+
+  .app-name {
+    font-size: clamp(26px, 4vw, 34px);
+    font-weight: 800;
+    color: var(--text-main);
+    line-height: 1.2;
+  }
+
+  .app-description {
+    font-size: 14px;
+    line-height: 1.7;
+    color: var(--text-muted);
+    margin: 8px 0 16px;
+  }
+
+  .btn-action {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    background: var(--text-main);
+    color: #ffffff;
+    padding: 12px 28px;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    align-self: flex-start;
+    transition: all 0.2s ease;
+  }
+
+  .btn-action:hover {
+    background: var(--primary);
+    transform: translateY(-1px);
+  }
+
+  .btn-disabled {
+    background: #e2e8f0;
+    color: #94a3b8;
+    cursor: not-allowed;
+  }
+  .btn-disabled:hover {
+    background: #e2e8f0;
+    transform: none;
+  }
+
+  /* 右側: アプリプレビュー・モックアップ */
+  .card-mockup {
+    background: #0f172a;
+    border-radius: 14px;
+    padding: 12px;
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.12);
+    border: 1px solid #1e293b;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .mockup-header {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding-left: 4px;
+  }
+
+  .mock-dot {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: #334155;
+  }
+
+  .mockup-screen {
+    background: #1e293b;
+    border-radius: 8px;
+    min-height: 220px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: #94a3b8;
+    font-size: 13px;
+    text-align: center;
+    padding: 20px;
+    border: 1px dashed #334155;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .mockup-screen.has-preview {
+    padding: 0;
+    border: none;
+    min-height: 0;
+  }
+
+  .mockup-preview {
+    width: 100%;
+    height: 100%;
+    min-height: 220px;
+    max-height: 280px;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+    border-radius: 8px;
+  }
+
+  /* ナビゲーション・コントロール */
+  .carousel-controls {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 24px;
+    padding: 0 8px;
+  }
+
+  .nav-btn {
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    color: var(--text-main);
+    cursor: pointer;
+    transition: all 0.2s;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+  }
+
+  .nav-btn:hover:not(:disabled) {
+    background: var(--text-main);
+    color: #ffffff;
+    border-color: var(--text-main);
+  }
+
+  .nav-btn:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+  }
+
+  .dots-container {
+    display: flex;
+    gap: 8px;
+  }
+
+  .dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #cbd5e1;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .dot.active {
+    background: var(--text-main);
+    width: 24px;
+    border-radius: 5px;
+  }
+
+  /* フッターエリア */
+  footer {
+    margin-top: 50px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .footer-link {
+    display: inline-block;
+    color: var(--text-muted);
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    padding: 6px 14px;
+    border-radius: 6px;
+    transition: all 0.2s;
+  }
+
+  .footer-link:hover {
+    color: var(--text-main);
+    background: #e2e8f0;
+  }
+
+  .copyright {
+    font-size: 12px;
+    color: #94a3b8;
+    letter-spacing: 0.06em;
+  }
+</style>
+</head>
+<body>
+
+  <!-- センターヘッダー -->
+  <header>
+    <div class="site-title-wrap">
+      <img src="images/sabo.gif" alt="サボテン君" class="title-cactus">
+      <h1 class="site-title">TRAMOYA</h1>
+    </div>
+    <div class="site-subtitle">WEB APP SUITE</div>
+  </header>
+
+  <!-- スライダー領域 -->
+  <main class="carousel-container">
+    <div class="carousel-viewport">
+      <div class="carousel-track" id="carouselTrack">
+        
+        <!-- スライド1: イタドリ -->
+        <article class="slide-card">
+          <div class="card-info">
+            <div class="card-header-badge">
+              <span class="badge badge-free">FREE</span>
+              <span class="app-category">木工・資材計算ツール</span>
+            </div>
+            <h2 class="app-name">イタドリ</h2>
+            <p class="app-description">
+              木取り・カット寸法を最適化し、歩留まりを最大化する木工・DIY専用の板割り計算アプリ。材料のムダを減らし、直感的なカット図面を自動生成します。
+            </p>
+            <a href="https://itadori.tramoya.jp/" class="btn-action" target="_blank" rel="noopener noreferrer">
+              アプリを起動する
+              <span>→</span>
+            </a>
+          </div>
+
+          <div class="card-mockup">
+            <div class="mockup-header">
+              <div class="mock-dot"></div>
+              <div class="mock-dot"></div>
+              <div class="mock-dot"></div>
+            </div>
+            <div class="mockup-screen has-preview">
+              <img src="images/itadori.jpg" alt="イタドリの画面" class="mockup-preview">
+            </div>
+          </div>
+        </article>
+
+        <!-- スライド2: 次回作予告（プレースホルダー） -->
+        <article class="slide-card">
+          <div class="card-info">
+            <div class="card-header-badge">
+              <span class="badge badge-dev">COMING SOON</span>
+              <span class="app-category">業務効率化ツール</span>
+            </div>
+            <h2 class="app-name">Next App</h2>
+            <p class="app-description">
+              現場目線で業務のムダを削ぎ落とす、個人事業主・クラフトマン向けの実用ツールを順次開発・追加予定です。
+            </p>
+            <button class="btn-action btn-disabled" disabled>
+              準備中
+            </button>
+          </div>
+
+          <div class="card-mockup">
+            <div class="mockup-header">
+              <div class="mock-dot"></div>
+              <div class="mock-dot"></div>
+              <div class="mock-dot"></div>
+            </div>
+            <div class="mockup-screen">
+              <div style="font-size: 28px; margin-bottom: 8px;">🛠️</div>
+              <div style="font-weight: 600; color: #cbd5e1;">Under Development</div>
+              <div style="font-size: 11px; color: #64748b; margin-top: 4px;">新しいツールを準備中</div>
+            </div>
+          </div>
+        </article>
+
+      </div>
+    </div>
+
+    <!-- 左右スライドボタン ＆ インジケーター -->
+    <div class="carousel-controls">
+      <button class="nav-btn" id="prevBtn" onclick="prevSlide()" aria-label="Previous">←</button>
+      <div class="dots-container" id="dotsContainer">
+        <div class="dot active" onclick="goToSlide(0)"></div>
+        <div class="dot" onclick="goToSlide(1)"></div>
+      </div>
+      <button class="nav-btn" id="nextBtn" onclick="nextSlide()" aria-label="Next">→</button>
+    </div>
+  </main>
+
+  <!-- フッター：Aboutリンク ＆ コピーライト -->
+  <footer>
+    <a href="about.html" class="footer-link">About TRAMOYA</a>
+    <div class="copyright">
+      &copy; 2026 TRAMOYA. All Rights Reserved.
+    </div>
+  </footer>
+
+  <script>
+    let currentIndex = 0;
+    const slides = document.querySelectorAll('.slide-card');
+    const track = document.getElementById('carouselTrack');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const dots = document.querySelectorAll('.dot');
+
+    function updateCarousel() {
+      track.style.transform = `translateX(-${currentIndex * 100}%)`;
+      prevBtn.disabled = currentIndex === 0;
+      nextBtn.disabled = currentIndex === slides.length - 1;
+
+      dots.forEach((dot, idx) => {
+        if (idx === currentIndex) {
+          dot.classList.add('active');
+        } else {
+          dot.classList.remove('active');
+        }
+      });
+    }
+
+    function nextSlide() {
+      if (currentIndex < slides.length - 1) {
+        currentIndex++;
+        updateCarousel();
+      }
+    }
+
+    function prevSlide() {
+      if (currentIndex > 0) {
+        currentIndex--;
+        updateCarousel();
+      }
+    }
+
+    function goToSlide(index) {
+      currentIndex = index;
+      updateCarousel();
+    }
+
+    updateCarousel();
+
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowLeft') prevSlide();
+      if (e.key === 'ArrowRight') nextSlide();
+    });
+
+    let startX = 0;
+    let endX = 0;
+    const viewport = document.querySelector('.carousel-viewport');
+
+    viewport.addEventListener('touchstart', (e) => {
+      startX = e.touches[0].clientX;
+    });
+
+    viewport.addEventListener('touchend', (e) => {
+      endX = e.changedTouches[0].clientX;
+      if (startX - endX > 50) nextSlide();
+      if (endX - startX > 50) prevSlide();
+    });
+  </script>
+</body>
+</html>

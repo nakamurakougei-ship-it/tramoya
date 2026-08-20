@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About - TRAMOYA</title>
+<style>
+  :root {
+    --primary: #2563eb;
+    --bg-page: #f8fafc;
+    --text-main: #0f172a;
+    --text-muted: #475569;
+    --border-color: #e2e8f0;
+  }
+
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  }
+
+  body {
+    background-color: var(--bg-page);
+    color: var(--text-main);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 50px 20px 100px;
+  }
+
+  /* センターヘッダー */
+  header {
+    text-align: center;
+    margin-bottom: 100px;
+  }
+
+  .site-title {
+    font-size: clamp(64px, 12vw, 110px);
+    font-weight: 900;
+    letter-spacing: -0.1em;
+    color: var(--text-main);
+    line-height: 0.95;
+    margin-bottom: 20px;
+    margin-left: -0.1em;
+    text-decoration: none;
+    display: inline-block;
+  }
+
+  .site-subtitle {
+    font-size: clamp(24px, 4vw, 34px);
+    font-weight: 800;
+    color: #64748b;
+    letter-spacing: 0.08em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+  }
+
+  .site-subtitle::before,
+  .site-subtitle::after {
+    content: "ー";
+    color: #64748b;
+    font-weight: 400;
+  }
+
+  /* メインコンテナ（項目間隔を1.5倍の 144px に設定） */
+  .about-container {
+    width: 100%;
+    max-width: 780px;
+    padding: 0 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 144px;
+  }
+
+  /* セクション構造 */
+  .section-row {
+    display: grid;
+    grid-template-columns: 180px 1fr;
+    gap: 32px;
+  }
+
+  @media (max-width: 640px) {
+    .about-container {
+      gap: 96px; /* モバイル時も1.5倍の96px */
+    }
+    .section-row {
+      grid-template-columns: 1fr;
+      gap: 12px;
+    }
+  }
+
+  .section-label {
+    font-size: 14px;
+    font-weight: 700;
+    color: #64748b;
+    letter-spacing: 0.05em;
+  }
+
+  .section-title {
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--text-main);
+    margin-bottom: 12px;
+  }
+
+  .section-body {
+    font-size: 14px;
+    line-height: 1.85;
+    color: var(--text-muted);
+  }
+
+  /* リスト */
+  .spec-list {
+    list-style: none;
+    margin-top: 10px;
+  }
+
+  .spec-list li {
+    position: relative;
+    padding-left: 16px;
+    margin-bottom: 10px;
+  }
+
+  .spec-list li:last-child {
+    margin-bottom: 0;
+  }
+
+  .spec-list li::before {
+    content: "・";
+    position: absolute;
+    left: 0;
+    color: #94a3b8;
+  }
+
+  /* テーブル */
+  .meta-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 16px;
+    font-size: 13px;
+    background: #ffffff;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid var(--border-color);
+  }
+
+  .meta-table th, .meta-table td {
+    padding: 12px 14px;
+    border: 1px solid var(--border-color);
+    text-align: left;
+  }
+
+  .meta-table th {
+    background: #f1f5f9;
+    color: #475569;
+    font-weight: 600;
+    width: 28%;
+  }
+
+  .meta-table td {
+    color: var(--text-main);
+  }
+
+  /* フッター */
+  footer {
+    margin-top: 120px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .footer-link {
+    display: inline-block;
+    color: #64748b;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    padding: 6px 14px;
+    border-radius: 6px;
+    transition: all 0.2s;
+  }
+
+  .footer-link:hover {
+    color: var(--text-main);
+    background: #e2e8f0;
+  }
+
+  .copyright {
+    font-size: 12px;
+    color: #94a3b8;
+    letter-spacing: 0.06em;
+  }
+</style>
+</head>
+<body>
+
+  <!-- センターヘッダー -->
+  <header>
+    <a href="index.html" class="site-title">TRAMOYA</a>
+    <div class="site-subtitle">WEB APP SUITE</div>
+  </header>
+
+  <!-- メインコンテンツ -->
+  <main class="about-container">
+
+    <!-- 1. 概要 -->
+    <section class="section-row">
+      <div class="section-label">TRAMOYAとは</div>
+      <div class="section-body">
+        <div class="section-title">日々の面倒な業務をラクにするウェブアプリ開発屋</div>
+        <p>
+          TRAMOYA（トラモヤ）は、昼夜問わずいつも忙しく働いている個人事業主や小さな会社の日々の業務を補助するための便利なWebアプリ開発をしています。
+        </p>
+        <p style="margin-top: 8px;">
+          余計な設定や難しい機能は省いて、サイトを開いたらすぐに使えるシンプルな道具を揃えています。
+        </p>
+      </div>
+    </section>
+
+    <!-- 2. 特徴・こだわり -->
+    <section class="section-row">
+      <div class="section-label">特徴・こだわり</div>
+      <div class="section-body">
+        <div class="section-title">大切にしていること</div>
+        <ul class="spec-list">
+          <li><strong>すぐに使える:</strong> アカウント登録やアプリのインストールは不要。スマホでもパソコンでも、ブラウザで開くだけで動きます。</li>
+          <li><strong>1つのツールに1つの役目:</strong> 複雑な機能はあえて付けず、必要な計算や作業だけに集中できるようにしています。</li>
+          <li><strong>使いながら改善:</strong> 実際の現場で使いながら、より使いやすくなるようアップデートを重ねています。</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- 3. つくっている人 -->
+    <section class="section-row">
+      <div class="section-label">つくっている人</div>
+      <div class="section-body">
+        <div class="section-title">個人事業の木工屋でありアプリ開発者です</div>
+        <p>
+          ものづくりの現場で実務を行いながら、日々の作業の中で「こういう計算ツールが欲しい」「ここを自動化したい」と感じたものを個人で開発しています。
+        </p>
+        <p style="margin-top: 8px;">
+          開発者目線のアプリ開発ではなく、「実際に使って役立つ道具」を作ることを心がけています。
+        </p>
+      </div>
+    </section>
+
+    <!-- 4. 料金について -->
+    <section class="section-row">
+      <div class="section-label">料金について</div>
+      <div class="section-body">
+        <div class="section-title">当面はすべての機能を無料で使えます</div>
+        <p>
+          いずれは月額数百円程度の気軽なサブスクで使ってもらう予定ですが、当面の間は誰でも無料で自由にお使いいただけます。
+        </p>
+        <table class="meta-table">
+          <tr>
+            <th>現在の利用料金</th>
+            <td>完全無料（会員登録も不要です）</td>
+          </tr>
+          <tr>
+            <th>今後の予定</th>
+            <td>月額数百円程度のサブスクリプションを予定</td>
+          </tr>
+          <tr>
+            <th>有料化するときは</th>
+            <td>事前にサイト上でお知らせします。勝手に料金が発生することはありません。</td>
+          </tr>
+        </table>
+      </div>
+    </section>
+
+    <!-- 5. お問い合わせ -->
+    <section class="section-row">
+      <div class="section-label">お問い合わせ</div>
+      <div class="section-body">
+        <div class="section-title">ご要望・フィードバック</div>
+        <p>
+          「使ってみてここが使いにくかった」「こういう自動化アプリが欲しい」といったご意見やリクエストがあれば、お気軽にお知らせください。
+        </p>
+        <table class="meta-table">
+          <tr>
+            <th>運営</th>
+            <td>TRAMOYA</td>
+          </tr>
+          <tr>
+            <th>連絡先</th>
+            <td>contact@tramoya.jp</td>
+          </tr>
+        </table>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- フッター -->
+  <footer>
+    <a href="index.html" class="footer-link">Back to Suite</a>
+    <div class="copyright">
+      &copy; 2026 TRAMOYA. All Rights Reserved.
+    </div>
+  </footer>
+
+</body>
+</html>
